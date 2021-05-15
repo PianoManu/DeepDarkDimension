@@ -34,7 +34,7 @@ credits="Thanks for this example mod goes to Java" #optional
 authors="PianoManu" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Maybe later...
+A dark and hostile dimension inspired by Extra Utilities' Deep Dark
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.ddd]] #optional
