@@ -16,25 +16,26 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.gen.carver.WorldCarver;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
-import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.world.ForgeWorldType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Will add description later...
+ *
+ * @author PianoManu
+ * @version 1.0 05/15/21
+ */
 public class Registration {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -45,15 +46,11 @@ public class Registration {
     private static final DeferredRegister<WorldCarver<?>> CARVERS = DeferredRegister.create(ForgeRegistries.WORLD_CARVERS, DDDMain.MOD_ID);
     private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, DDDMain.MOD_ID);
 
-    public static final ResourceLocation ID_DEEP_DARK_DIMENSION = new ResourceLocation(DDDMain.MOD_ID, "deep_dark");
-
-    //public static DimensionType dimensionType;
-
     public static final RegistryObject<Block> DDD_TELEPORTER_BLOCK = BLOCKS.register("teleporter", () -> new DDDTeleporterBlock(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(4).strength(30f, 600f).sound(SoundType.GLASS)));
     public static final RegistryObject<Item> DDD_TELEPORTER_BLOCK_ITEM = ITEMS.register("teleporter", () -> new BlockItem(DDD_TELEPORTER_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON).tab(ItemGroup.TAB_MISC)));
+    @SuppressWarnings("all")
     public static final RegistryObject<TileEntityType<TeleporterBlockTileEntity>> DDD_TELEPORTER_TILE_ENTITY = TILE_ENTITIES.register("teleporter", () -> TileEntityType.Builder.of(TeleporterBlockTileEntity::new, DDD_TELEPORTER_BLOCK.get()).build(null));
 
-    //public static final RegistryObject<ForgeWorldType> DEEP_DARK_DIMENSION = DIMENSIONS.register( "deep_dark_dimension", () -> new ForgeWorldType());
     public static final RegistryObject<WorldCarver<?>> DEEP_DARK_CAVE_CARVER = CARVERS.register("deep_dark_cave", () -> new DeepDarkCarver(ProbabilityConfig.CODEC));
 
     public static final RegistryObject<Feature<OreFeatureConfig>> DEEP_DARK_PILLAR_FEATURE = FEATURES.register("deep_dark_pillar", () -> new DeepDarkPillar(OreFeatureConfig.CODEC));
@@ -80,3 +77,4 @@ public class Registration {
         LOGGER.info("Registered Features from Deep Dark Dimension!");
     }
 }
+//========SOLI DEO GLORIA========//

@@ -15,16 +15,23 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
+/**
+ * Will add description later...
+ *
+ * @author PianoManu
+ * @version 1.0 05/15/21
+ */
 public class DeepDarkPillar extends Feature<OreFeatureConfig> {
     public DeepDarkPillar(Codec<OreFeatureConfig> config) {
         super(config);
     }
 
     @Override
-    public boolean place(ISeedReader seedReader, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, OreFeatureConfig config) {
-        if (rand.nextFloat() < 0.8)
+    public boolean place(@Nullable ISeedReader seedReader, @Nullable ChunkGenerator chunkGenerator, Random rand, @Nullable BlockPos pos, @Nullable OreFeatureConfig config) {
+        if (rand.nextFloat() < 0.8 || pos == null || seedReader == null)
             return false;
         int pillarSocketDiameter = 8;
         int pillarSocketHeight = 6;
@@ -33,13 +40,11 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
         int startXPosition = pos.getX();
         int startYPosition = DDDConfig.CAVE_LOWER_LIMIT;
         int startZPosition = pos.getZ();
-        //this.setBlock(seedReader, new BlockPos(startXPosition, 80, startZPosition), determineBlockState(rand));
         for (int currentXPosition = startXPosition; currentXPosition <= startXPosition + pillarSocketDiameter; currentXPosition++) {
             for (int currentZPosition = startZPosition; currentZPosition <= startZPosition + pillarSocketDiameter; currentZPosition++) {
                 boolean isCornerPosition = (currentXPosition == startXPosition && currentZPosition == startZPosition) || (currentXPosition == startXPosition + pillarSocketDiameter && currentZPosition == startZPosition) || (currentXPosition == startXPosition && currentZPosition == startZPosition + pillarSocketDiameter) || (currentXPosition == startXPosition + pillarSocketDiameter && currentZPosition == startZPosition + pillarSocketDiameter);
                 boolean isNotACornerPosition = !isCornerPosition;
                 boolean isInnerPosition = !(currentXPosition == startXPosition || currentXPosition == startXPosition + pillarSocketDiameter || currentZPosition == startZPosition || currentZPosition == startZPosition + pillarSocketDiameter);
-                //boolean isNotACornerPosition = !(currentXPosition == startXPosition || currentXPosition == startXPosition + pillarSocketDiameter) && !(currentZPosition == startZPosition || currentZPosition == startZPosition + pillarSocketDiameter);
                 //lower socket
                 for (int currentYPosition = startYPosition + pillarSocketHeight; currentYPosition < startYPosition + 2 * pillarSocketHeight; currentYPosition++) {
                     if (isInnerPosition)
@@ -140,3 +145,4 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
         return Blocks.COBBLESTONE_WALL.defaultBlockState();
     }
 }
+//========SOLI DEO GLORIA========//

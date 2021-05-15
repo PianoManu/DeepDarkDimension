@@ -20,6 +20,12 @@ import org.apache.logging.log4j.Logger;
 
 import static mod.pianomanu.ddd.DDDMain.MOD_ID;
 
+/**
+ * Main class of the Deep Dark Dimension mod
+ *
+ * @author PianoManu
+ * @version 1.0 05/15/21
+ */
 @Mod(MOD_ID)
 public class DDDMain {
     // Directly reference a log4j logger.
@@ -52,38 +58,25 @@ public class DDDMain {
         MinecraftForge.EVENT_BUS.register(this);
         // some preinit code
         DEEP_DARK_DIMENSION = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "deep_dark"));
-        //LOGGER.info("HELLO FROM PREINIT");
-        //LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        //LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
         RenderSetup.init();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        // some example code to dispatch IMC to another mod
-        //InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+
     }
 
     private void processIMC(final InterModProcessEvent event) {
-        // some example code to receive and process InterModComms from other mods
-        //LOGGER.info("Got IMC {}", event.getIMCStream().
-        //        map(m->m.getMessageSupplier().get()).
-        //        collect(Collectors.toList()));
+
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-        //LOGGER.info("HELLO from server starting");
     }
 
-/*    @SubscribeEvent
-    public void registerCarvers(RegistryEvent.Register<WorldCarver<?>> event) {
-        LOGGER.info("Registering Carvers...");
-        event.getRegistry().register(new DeepDarkCarver(ProbabilityConfig.CODEC));
-    }*/
 }
+//This mod is dedicated to the living God and His son, Jesus. Without His support, I would never have had enough strength and perseverance to get this project working and publish it. Learn to hear His voice, it will transform your life. (Based on a quote from Covert_Jaguar, creator of RailCraft)
+//========SOLI DEO GLORIA========//

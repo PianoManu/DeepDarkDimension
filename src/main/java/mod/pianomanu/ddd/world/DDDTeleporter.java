@@ -10,6 +10,12 @@ import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.function.Function;
 
+/**
+ * Will add description later...
+ *
+ * @author PianoManu
+ * @version 1.0 05/15/21
+ */
 public class DDDTeleporter implements ITeleporter {
     private static BlockPos overworldTeleporterPos;
 
@@ -27,7 +33,7 @@ public class DDDTeleporter implements ITeleporter {
                 teleporterPos = DDDConfig.SPAWN_POS;
             else
                 teleporterPos = overworldTeleporterPos;
-            player.teleportTo(teleporterPos.getX(),teleporterPos.getY(),teleporterPos.getZ());
+            player.teleportTo(teleporterPos.getX(), teleporterPos.getY(), teleporterPos.getZ());
         }
         return e;
     }
@@ -40,3 +46,4 @@ public class DDDTeleporter implements ITeleporter {
         return overworldTeleporterPos;
     }
 }
+//========SOLI DEO GLORIA========//

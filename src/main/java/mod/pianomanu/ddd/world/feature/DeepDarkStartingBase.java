@@ -21,6 +21,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+/**
+ * Will add description later...
+ *
+ * @author PianoManu
+ * @version 1.0 05/15/21
+ */
 public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
     private static final int START_X = DDDConfig.SPAWN_POS.getX() - 4;
@@ -30,13 +36,6 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
     private static final int START_Y = DDDConfig.SPAWN_POS.getY() - 5;
     private static final int MIDDLE_Y = DDDConfig.SPAWN_POS.getY() - 1;
     private static final int END_Y = DDDConfig.SPAWN_POS.getY() + 3;
-    /*private static final int START_X = DDDConfig.SPAWN_POS.getX() - 3;
-    private static final int START_Z = DDDConfig.SPAWN_POS.getZ() - 3;
-    private static final int END_X = DDDConfig.SPAWN_POS.getX() + 3;
-    private static final int END_Z = DDDConfig.SPAWN_POS.getZ() + 3;
-    private static final int START_Y = DDDConfig.SPAWN_POS.getY() - 5;
-    private static final int MIDDLE_Y = DDDConfig.SPAWN_POS.getY() - 1;
-    private static final int END_Y = DDDConfig.SPAWN_POS.getY() + 3;*/
 
     public DeepDarkStartingBase(Codec<NoFeatureConfig> config) {
         super(config);
@@ -85,7 +84,6 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
                     for (int y = START_Y; y <= END_Y; y++) {
                         if (isCornerFrameBlock) {
-                            //this.setBlock(seedReader, new BlockPos(x, END_Y, z), determineStoneBrickState(rand));
                             placeWalls(seedReader, new BlockPos(x, y, z));
                         }
                         if (isCornerBlock) {
@@ -93,7 +91,6 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
                                 this.setBlock(seedReader, new BlockPos(x, y, z), Blocks.CHISELED_STONE_BRICKS.defaultBlockState());
                             else
                                 this.setBlock(seedReader, new BlockPos(x, y, z), determineStoneBrickState(rand));
-                            //placeWalls(seedReader, new BlockPos(x,y,z));
                         }
                     }
                 } catch (RuntimeException ignored) {
@@ -132,20 +129,6 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
         boolean isInMiddleOfWall = pos.getX() >= DDDConfig.SPAWN_POS.getX() - 1 && pos.getX() <= DDDConfig.SPAWN_POS.getX() + 1 || pos.getZ() >= DDDConfig.SPAWN_POS.getZ() - 1 && pos.getZ() <= DDDConfig.SPAWN_POS.getZ() + 1;
         if (isInMiddleOfWall && pos.getY() == MIDDLE_Y + 2) {
             BlockState ironBars = Blocks.IRON_BARS.defaultBlockState();
-            /*if (pos.getX() == START_X || pos.getX() == END_X) {
-                for (Direction d : Direction.values()) {
-                    BlockPos movedPos = pos.mutable().move(d);
-                    ironBars.setValue(FourWayBlock.WEST, true).updateNeighbourShapes(seedReader, movedPos, 3);
-                    ironBars.setValue(FourWayBlock.EAST, true).updateNeighbourShapes(seedReader, movedPos, 3);
-                }
-            }
-            if (pos.getZ() == START_Z || pos.getZ() == END_Z) {
-                for (Direction d : Direction.values()) {
-                    BlockPos movedPos = pos.mutable().move(d);
-                    ironBars.setValue(FourWayBlock.NORTH, true).updateNeighbourShapes(seedReader, movedPos, 3);
-                    ironBars.setValue(FourWayBlock.SOUTH, true).updateNeighbourShapes(seedReader, movedPos, 3);
-                }
-            }*/
             this.setBlock(seedReader, pos, ironBars);
             if (pos.getZ() == START_Z || pos.getZ() == END_Z) {
                 BlockPos movedPosWest = pos.mutable().move(Direction.WEST);
@@ -193,31 +176,31 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
             for (int z = START_Z - 1; z <= END_Z + 1; z++) {
                 boolean isOuterRectangle = (x == START_X - 1 || x == END_X + 1 || z == START_Z - 1 || z == END_Z + 1);
                 boolean isOuterRectangle2 = (x == START_X || x == END_X || z == START_Z || z == END_Z);
-                boolean isFrame = (x == START_X + 1 && z == START_Z + 1 || x == END_X - 1 && z == START_Z + 1 || x== START_X + 1 && z == END_Z - 1 || x == END_X - 1 && z == END_Z - 1);
+                boolean isFrame = (x == START_X + 1 && z == START_Z + 1 || x == END_X - 1 && z == START_Z + 1 || x == START_X + 1 && z == END_Z - 1 || x == END_X - 1 && z == END_Z - 1);
                 boolean isMiddleRectangle = (x == START_X + 1 || x == END_X - 1 || z == START_Z + 1 || z == END_Z - 1);
                 boolean isMiddleRectangle2 = (x == START_X + 2 || x == END_X - 2 || z == START_Z + 2 || z == END_Z - 2);
                 boolean isInnerRectangle = (x == START_X + 3 || x == END_X - 3 || z == START_Z + 3 || z == END_Z - 3);
                 boolean isInnerRectangle2 = (x == START_X + 4 || x == END_X - 4 || z == START_Z + 4 || z == END_Z - 4);
                 if (isOuterRectangle)
-                    this.setBlock(seedReader, new BlockPos(x,END_Y,z),determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
+                    this.setBlock(seedReader, new BlockPos(x, END_Y, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
                 if (isOuterRectangle2)
-                    this.setBlock(seedReader, new BlockPos(x,END_Y+1,z),determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.BOTTOM));
+                    this.setBlock(seedReader, new BlockPos(x, END_Y + 1, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.BOTTOM));
                 if (isMiddleRectangle)
                     //this.setBlock(seedReader, new BlockPos(x,END_Y+1,z),determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
-                    this.setBlock(seedReader, new BlockPos(x,END_Y+1,z),determineStoneBrickState(rand));
+                    this.setBlock(seedReader, new BlockPos(x, END_Y + 1, z), determineStoneBrickState(rand));
                 if (isMiddleRectangle2) {
                     this.setBlock(seedReader, new BlockPos(x, END_Y + 1, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
                     this.setBlock(seedReader, new BlockPos(x, END_Y + 2, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.BOTTOM));
                 }
                 if (isInnerRectangle)
                     //this.setBlock(seedReader, new BlockPos(x,END_Y+2,z),determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
-                    this.setBlock(seedReader, new BlockPos(x,END_Y+2,z),determineStoneBrickState(rand));
+                    this.setBlock(seedReader, new BlockPos(x, END_Y + 2, z), determineStoneBrickState(rand));
                 if (isInnerRectangle2) {
                     this.setBlock(seedReader, new BlockPos(x, END_Y + 2, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.TOP));
                     this.setBlock(seedReader, new BlockPos(x, END_Y + 3, z), determineStoneBrickSlabState(rand).setValue(SlabBlock.TYPE, SlabType.BOTTOM));
                 }
                 if (isFrame)
-                    this.setBlock(seedReader, new BlockPos(x,END_Y+1,z),determineStoneBrickState(rand));
+                    this.setBlock(seedReader, new BlockPos(x, END_Y + 1, z), determineStoneBrickState(rand));
             }
         }
     }
@@ -241,7 +224,7 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
                 c.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                 this.setBlock(seedReader, new BlockPos(START_X + 1, MIDDLE_Y + 1, START_Z + 1), chest);
             } else {
-                System.out.println("dgjndc gnjxdjhnx");
+                System.out.println("Something not working...");
             }
         }
     }
@@ -260,3 +243,4 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
         return Blocks.STONE_BRICK_SLAB.defaultBlockState();
     }
 }
+//========SOLI DEO GLORIA========//
