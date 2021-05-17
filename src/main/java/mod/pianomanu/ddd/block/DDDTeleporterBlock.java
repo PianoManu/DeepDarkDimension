@@ -7,14 +7,17 @@ import mod.pianomanu.ddd.world.DDDTeleporter;
 import net.minecraft.block.AbstractGlassBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -24,12 +27,14 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/15/21
+ * @version 1.1 05/17/21
  */
 @SuppressWarnings("deprecation")
 public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntityProvider {
@@ -51,7 +56,7 @@ public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntit
     public ActionResultType use(@Nullable BlockState state, @Nullable World world, @Nullable BlockPos pos, @Nullable PlayerEntity player, @Nullable Hand hand, @Nullable BlockRayTraceResult rayTraceResult) {
         if (player instanceof ServerPlayerEntity) {
             teleportPlayer((ServerPlayerEntity) player, DDDConfig.SPAWN_POS);
-            return ActionResultType.SUCCESS;
+            return ActionResultType.CONSUME;
         }
         return ActionResultType.PASS;
     }
@@ -80,12 +85,26 @@ public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntit
                 teleporter.setOverworldTeleporterPos(player.blockPosition());
                 player.setPos(DDDConfig.SPAWN_POS.getX(), DDDConfig.SPAWN_POS.getY(), DDDConfig.SPAWN_POS.getZ());
                 player.changeDimension(destiny, teleporter);
+                if (DDDConfig.SPAWN_IN_DEEP_DARK_DIMENSION)
+                    player.setRespawnPosition(player.level.dimension(), DDDConfig.SPAWN_POS, 0, true, true);
             } else {
                 LOGGER.error("Could not find Deep Dark Dimension...");
                 player.sendMessage(new TranslationTextComponent("Could not transfer to Deep Dark Dimension"), ChatType.SYSTEM, player.getUUID());
             }
         }
         return true;
+    }
+
+    @Override
+    public void appendHoverText(@Nullable ItemStack itemStack, @Nullable IBlockReader blockReader, @Nullable List<ITextComponent> textComponents, @Nullable ITooltipFlag toolTipFlag) {
+        //List<ITextComponent> teleporterTextComponent = new ArrayList<>();
+        if (textComponents == null) {
+            textComponents = new ArrayList<>();
+        }
+        textComponents.add(new TranslationTextComponent("block.ddd.teleporter.description"));
+        if (itemStack != null && toolTipFlag != null) {
+            super.appendHoverText(itemStack, blockReader, textComponents, toolTipFlag);
+        }
     }
 }
 //========SOLI DEO GLORIA========//
