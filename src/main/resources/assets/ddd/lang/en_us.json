@@ -1,3 +1,5 @@
 {
-  "block.ddd.teleporter": "Teleporter\n§1Place and right-click to teleport to the deep dark dimension"
+  "block.ddd.teleporter": "Teleporter",
+  "block.ddd.teleporter.description": "§2Place and right-click to teleport to the deep dark dimension",
+  "death.attack.darkness": "%1$s got his meager body torn apart by the shadows"
 }
