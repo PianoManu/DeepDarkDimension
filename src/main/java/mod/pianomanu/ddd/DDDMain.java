@@ -2,6 +2,8 @@ package mod.pianomanu.ddd;
 
 import mod.pianomanu.ddd.init.Registration;
 import mod.pianomanu.ddd.init.RenderSetup;
+import mod.pianomanu.ddd.world.SpawnInDeepDark;
+import mod.pianomanu.ddd.world.darkness.DarknessTickUtils;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -24,11 +26,10 @@ import static mod.pianomanu.ddd.DDDMain.MOD_ID;
  * Main class of the Deep Dark Dimension mod
  *
  * @author PianoManu
- * @version 1.0 05/15/21
+ * @version 1.1 05/17/21
  */
 @Mod(MOD_ID)
 public class DDDMain {
-    // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "ddd";
@@ -43,6 +44,8 @@ public class DDDMain {
 
         LOGGER.info("Registering everything from Deep Dark Dimension...");
         Registration.init();
+        MinecraftForge.EVENT_BUS.register(new DarknessTickUtils());
+        MinecraftForge.EVENT_BUS.register(new SpawnInDeepDark());
         LOGGER.info("Registered everything from Deep Dark Dimension!");
 
         // Register the processIMC method for modloading
@@ -65,11 +68,9 @@ public class DDDMain {
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-
     }
 
     private void processIMC(final InterModProcessEvent event) {
-
     }
 
     @SubscribeEvent
