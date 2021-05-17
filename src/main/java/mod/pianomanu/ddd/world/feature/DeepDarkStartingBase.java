@@ -25,7 +25,7 @@ import java.util.Random;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/15/21
+ * @version 1.1 05/17/21
  */
 public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
@@ -43,7 +43,7 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
     @Override
     public boolean place(@Nullable ISeedReader seedReader, @Nullable ChunkGenerator generator, @Nullable Random rand, @Nullable BlockPos pos, @Nullable NoFeatureConfig config) {
-        if (pos != null) {
+        if (pos != null && DDDConfig.CREATE_SPAWN_BASE_IN_DEEP_DARK_DIMENSION) {
             boolean isNearSpawn = pos.getX() < 32 && pos.getX() > -32 && pos.getZ() < 32 && pos.getZ() > -32;
             if (seedReader != null && rand != null && isNearSpawn) {
                 try {

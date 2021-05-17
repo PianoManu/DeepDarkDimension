@@ -23,7 +23,7 @@ public class DarknessTickUtils {
     public void tick(final TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START && !event.player.getCommandSenderWorld().isClientSide && event.player instanceof ServerPlayerEntity) {
             final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION)) {
+            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION) && DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_DAMAGE < -1) {
                 int time = 0;
                 try {
                     time = player.getEntityData().get(TIME_IN_DARKNESS);

@@ -1,5 +1,6 @@
 package mod.pianomanu.ddd;
 
+import mod.pianomanu.ddd.config.DDDConfig;
 import mod.pianomanu.ddd.init.Registration;
 import mod.pianomanu.ddd.init.RenderSetup;
 import mod.pianomanu.ddd.world.SpawnInDeepDark;
@@ -10,7 +11,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -37,6 +40,7 @@ public class DDDMain {
     public static RegistryKey<World> DEEP_DARK_DIMENSION;
 
     public DDDMain() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DDDConfig.CONFIG);
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
