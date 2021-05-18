@@ -8,8 +8,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.carver.WorldCarver;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.BitSet;
@@ -23,8 +21,6 @@ import java.util.function.Function;
  * @version 1.1 05/18/21
  */
 public class DeepDarkCarver extends WorldCarver<ProbabilityConfig> {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     public DeepDarkCarver(Codec<ProbabilityConfig> probabilityConfig) {
         super(probabilityConfig, 256);
     }

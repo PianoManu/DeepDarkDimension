@@ -66,13 +66,6 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
         return false;
     }
 
-    /*private double calcDistance(BlockPos pos1, BlockPos pos2) {
-        int distX = Math.abs(pos1.getX() - pos2.getX());
-        int distY = Math.abs(pos1.getY() - pos2.getY());
-        int distZ = Math.abs(pos1.getZ() - pos2.getZ());
-        return Math.sqrt(distX ^ 2 + distY ^ 2 + distZ ^ 2);
-    }*/
-
     private void placeBaseFrame(ISeedReader seedReader, Random rand) {
         for (int x = START_X; x <= END_X; x++) {
             for (int z = START_Z; z <= END_Z; z++) {
@@ -205,7 +198,7 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
         }
     }
 
-    private void placeStarterChest(ISeedReader seedReader) {
+    private void placeStarterChest(ISeedReader seedReader) { //TODO
         BlockState chest = Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
         if (chest.hasTileEntity()) {
             ChestTileEntity c = (ChestTileEntity) chest.createTileEntity(seedReader);

@@ -97,7 +97,6 @@ public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntit
 
     @Override
     public void appendHoverText(@Nullable ItemStack itemStack, @Nullable IBlockReader blockReader, @Nullable List<ITextComponent> textComponents, @Nullable ITooltipFlag toolTipFlag) {
-        //List<ITextComponent> teleporterTextComponent = new ArrayList<>();
         if (textComponents == null) {
             textComponents = new ArrayList<>();
         }

@@ -2,8 +2,6 @@ package mod.pianomanu.ddd.world.darkness;
 
 import net.minecraft.util.DamageSource;
 
-//TODO
-
 /**
  * Will add description later...
  *

@@ -23,17 +23,13 @@ public class SpawnInDeepDark {
     public void playerLogginIn(final PlayerEvent.PlayerLoggedInEvent event) {
         ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
         if (!world.players().contains(player)) {
-            System.out.println("player is new");
             ServerWorld deepDark = player.server.getLevel(DDDMain.DEEP_DARK_DIMENSION);
             if (DDDConfig.PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION.get() && deepDark != null) {
-                System.out.println("player spawns in deep dark");
                 DDDTeleporter teleporter = new DDDTeleporter(new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get()));
                 teleporter.setOverworldTeleporterPos(player.blockPosition());
                 player.setPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get());
                 player.changeDimension(deepDark, teleporter);
             }
-        } else {
-            System.out.println("player is not new");
         }
     }
 
