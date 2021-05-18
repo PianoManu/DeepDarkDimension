@@ -2,7 +2,6 @@ package mod.pianomanu.ddd.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
@@ -13,7 +12,7 @@ import java.nio.file.Path;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/17/21
+ * @version 1.2 05/18/21
  */
 public class DDDConfig {
     public static final String CATEGORY_SPAWNING = "spawning";
@@ -24,26 +23,17 @@ public class DDDConfig {
 
     public static ForgeConfigSpec CONFIG;
 
-    private static ForgeConfigSpec.IntValue CAVE_FLOOR_HEIGHT;
-    public static final int CAVE_LOWER_LIMIT = CAVE_FLOOR_HEIGHT.get();
-    private static ForgeConfigSpec.IntValue CAVE_CEILING_HEIGHT;
-    public static final int CAVE_UPPER_LIMIT = CAVE_CEILING_HEIGHT.get();
-    private static ForgeConfigSpec.IntValue SPAWN_POS_X;
-    private static ForgeConfigSpec.IntValue SPAWN_POS_Y;
-    private static ForgeConfigSpec.IntValue SPAWN_POS_Z;
-    public static final BlockPos SPAWN_POS = new BlockPos(SPAWN_POS_X.get(), SPAWN_POS_Y.get(), SPAWN_POS_Z.get());
-    private static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK;
-    public static final boolean INCLUDE_TELEPORTER_BLOCK = DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK.get();
-    private static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_BONUS_CHEST; //TODO doesn't work right now
-    public static final boolean INCLUDE_STARTER_CHEST = DEEP_DARK_INCLUDES_BONUS_CHEST.get(); //not working
-    private static ForgeConfigSpec.IntValue MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE;
-    public static final int MAX_TIME_IN_DARKNESS_BEFORE_DAMAGE = MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get();
-    private static ForgeConfigSpec.DoubleValue DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS;
-    public static final float DAMAGE_PER_HIT_BY_DARKNESS = DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS.get().floatValue();
-    private static ForgeConfigSpec.BooleanValue PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION;
-    public static final boolean SPAWN_IN_DEEP_DARK_DIMENSION = PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION.get();
-    private static ForgeConfigSpec.BooleanValue CREATE_SPAWN_BASE;
-    public static final boolean CREATE_SPAWN_BASE_IN_DEEP_DARK_DIMENSION = CREATE_SPAWN_BASE.get();
+    public static ForgeConfigSpec.IntValue CAVE_FLOOR_HEIGHT;
+    public static ForgeConfigSpec.IntValue CAVE_CEILING_HEIGHT;
+    public static ForgeConfigSpec.IntValue SPAWN_POS_X;
+    public static ForgeConfigSpec.IntValue SPAWN_POS_Y;
+    public static ForgeConfigSpec.IntValue SPAWN_POS_Z;
+    public static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK;
+    public static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_BONUS_CHEST; //TODO doesn't work right now
+    public static ForgeConfigSpec.IntValue MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE;
+    public static ForgeConfigSpec.DoubleValue DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS;
+    public static ForgeConfigSpec.BooleanValue PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION;
+    public static ForgeConfigSpec.BooleanValue CREATE_SPAWN_BASE;
 
     static {
         BUILDER.comment("World generation settings").push(CATEGORY_GENERATION);
@@ -82,7 +72,6 @@ public class DDDConfig {
         DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS = BUILDER.comment("Determines how much damage is dealt, when the darkness attacks the player, 1.0 equals half a heart.\nNote: Setting this parameter to a value equal to or larger than 20 will result in an insta-kill under most circumstances (exception: having more that 10 hearts)").defineInRange("damage_per_hit", 1.0, 0.0, Double.MAX_VALUE);
     }
 
-    @SubscribeEvent
     public static void loadConfig(ForgeConfigSpec spec, Path path) {
         final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave().writingMode(WritingMode.REPLACE).build();
         configData.load();

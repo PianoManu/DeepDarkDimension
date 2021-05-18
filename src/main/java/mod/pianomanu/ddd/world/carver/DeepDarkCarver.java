@@ -20,7 +20,7 @@ import java.util.function.Function;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/15/21
+ * @version 1.1 05/18/21
  */
 public class DeepDarkCarver extends WorldCarver<ProbabilityConfig> {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -35,8 +35,8 @@ public class DeepDarkCarver extends WorldCarver<ProbabilityConfig> {
         int currentXValueMax = chunk.getPos().getWorldPosition().getX() + 16;
         int currentZValueMin = chunk.getPos().getWorldPosition().getZ();
         int currentZValueMax = chunk.getPos().getWorldPosition().getZ() + 16;
-        int yStart = DDDConfig.CAVE_LOWER_LIMIT;
-        int yEnd = DDDConfig.CAVE_UPPER_LIMIT;
+        int yStart = DDDConfig.CAVE_FLOOR_HEIGHT.get();
+        int yEnd = DDDConfig.CAVE_CEILING_HEIGHT.get();
         for (int x = currentXValueMin; x < currentXValueMax; ++x) {
             for (int z = currentZValueMin; z < currentZValueMax; ++z) {
                 for (int y = yStart; y < yEnd; ++y) {

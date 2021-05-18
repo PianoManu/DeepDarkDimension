@@ -25,17 +25,17 @@ import java.util.Random;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/17/21
+ * @version 1.2 05/18/21
  */
 public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
-    private static final int START_X = DDDConfig.SPAWN_POS.getX() - 4;
-    private static final int START_Z = DDDConfig.SPAWN_POS.getZ() - 4;
-    private static final int END_X = DDDConfig.SPAWN_POS.getX() + 4;
-    private static final int END_Z = DDDConfig.SPAWN_POS.getZ() + 4;
-    private static final int START_Y = DDDConfig.SPAWN_POS.getY() - 5;
-    private static final int MIDDLE_Y = DDDConfig.SPAWN_POS.getY() - 1;
-    private static final int END_Y = DDDConfig.SPAWN_POS.getY() + 3;
+    private static final int START_X = DDDConfig.SPAWN_POS_X.get() - 4;
+    private static final int START_Z = DDDConfig.SPAWN_POS_Z.get() - 4;
+    private static final int END_X = DDDConfig.SPAWN_POS_X.get() + 4;
+    private static final int END_Z = DDDConfig.SPAWN_POS_Z.get() + 4;
+    private static final int START_Y = DDDConfig.SPAWN_POS_Y.get() - 5;
+    private static final int MIDDLE_Y = DDDConfig.SPAWN_POS_Y.get() - 1;
+    private static final int END_Y = DDDConfig.SPAWN_POS_Y.get() + 3;
 
     public DeepDarkStartingBase(Codec<NoFeatureConfig> config) {
         super(config);
@@ -43,13 +43,13 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
     @Override
     public boolean place(@Nullable ISeedReader seedReader, @Nullable ChunkGenerator generator, @Nullable Random rand, @Nullable BlockPos pos, @Nullable NoFeatureConfig config) {
-        if (pos != null && DDDConfig.CREATE_SPAWN_BASE_IN_DEEP_DARK_DIMENSION) {
+        if (pos != null && DDDConfig.CREATE_SPAWN_BASE.get()) {
             boolean isNearSpawn = pos.getX() < 32 && pos.getX() > -32 && pos.getZ() < 32 && pos.getZ() > -32;
             if (seedReader != null && rand != null && isNearSpawn) {
                 try {
-                    this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), DDDConfig.SPAWN_POS.getY(), DDDConfig.SPAWN_POS.getZ() + 1), Registration.DDD_TELEPORTER_BLOCK.get().defaultBlockState());
-                    if (!DDDConfig.INCLUDE_TELEPORTER_BLOCK)
-                        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), DDDConfig.SPAWN_POS.getY(), DDDConfig.SPAWN_POS.getZ() + 1), Blocks.CAVE_AIR.defaultBlockState());
+                    this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get() + 1), Registration.DDD_TELEPORTER_BLOCK.get().defaultBlockState());
+                    if (!DDDConfig.DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK.get())
+                        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get() + 1), Blocks.CAVE_AIR.defaultBlockState());
                 } catch (RuntimeException e) {
                     return false;
                 }
@@ -126,7 +126,7 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
     }
 
     private void placeWalls(ISeedReader seedReader, BlockPos pos) {
-        boolean isInMiddleOfWall = pos.getX() >= DDDConfig.SPAWN_POS.getX() - 1 && pos.getX() <= DDDConfig.SPAWN_POS.getX() + 1 || pos.getZ() >= DDDConfig.SPAWN_POS.getZ() - 1 && pos.getZ() <= DDDConfig.SPAWN_POS.getZ() + 1;
+        boolean isInMiddleOfWall = pos.getX() >= DDDConfig.SPAWN_POS_X.get() - 1 && pos.getX() <= DDDConfig.SPAWN_POS_X.get() + 1 || pos.getZ() >= DDDConfig.SPAWN_POS_Z.get() - 1 && pos.getZ() <= DDDConfig.SPAWN_POS_Z.get() + 1;
         if (isInMiddleOfWall && pos.getY() == MIDDLE_Y + 2) {
             BlockState ironBars = Blocks.IRON_BARS.defaultBlockState();
             this.setBlock(seedReader, pos, ironBars);
@@ -147,28 +147,28 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
     }
 
     private void placeLadder(ISeedReader seedReader) {
-        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), MIDDLE_Y, START_Z + 1), Blocks.DARK_OAK_TRAPDOOR.defaultBlockState().setValue(TrapDoorBlock.FACING, Direction.SOUTH).setValue(TrapDoorBlock.HALF, Half.TOP));
-        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), MIDDLE_Y - 1, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
-        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), MIDDLE_Y - 2, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
-        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS.getX(), MIDDLE_Y - 3, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
+        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), MIDDLE_Y, START_Z + 1), Blocks.DARK_OAK_TRAPDOOR.defaultBlockState().setValue(TrapDoorBlock.FACING, Direction.SOUTH).setValue(TrapDoorBlock.HALF, Half.TOP));
+        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), MIDDLE_Y - 1, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
+        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), MIDDLE_Y - 2, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
+        this.setBlock(seedReader, new BlockPos(DDDConfig.SPAWN_POS_X.get(), MIDDLE_Y - 3, START_Z + 1), Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.SOUTH));
     }
 
     private void placeExits(ISeedReader seedReader) {
         //two iron doors with pressure plate
         //west
-        this.setBlock(seedReader, new BlockPos(START_X, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.EAST).setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER));
-        this.setBlock(seedReader, new BlockPos(START_X, START_Y + 2, DDDConfig.SPAWN_POS.getZ()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.EAST).setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
-        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
-        this.setBlock(seedReader, new BlockPos(START_X + 1, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
-        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 2, DDDConfig.SPAWN_POS.getZ() - 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.WEST));
-        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 2, DDDConfig.SPAWN_POS.getZ() + 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.WEST));
+        this.setBlock(seedReader, new BlockPos(START_X, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.EAST).setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER));
+        this.setBlock(seedReader, new BlockPos(START_X, START_Y + 2, DDDConfig.SPAWN_POS_Z.get()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.EAST).setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
+        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
+        this.setBlock(seedReader, new BlockPos(START_X + 1, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
+        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 2, DDDConfig.SPAWN_POS_Z.get() - 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.WEST));
+        this.setBlock(seedReader, new BlockPos(START_X - 1, START_Y + 2, DDDConfig.SPAWN_POS_Z.get() + 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.WEST));
         //east
-        this.setBlock(seedReader, new BlockPos(END_X, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.WEST).setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER));
-        this.setBlock(seedReader, new BlockPos(END_X, START_Y + 2, DDDConfig.SPAWN_POS.getZ()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.WEST).setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
-        this.setBlock(seedReader, new BlockPos(END_X - 1, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
-        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 1, DDDConfig.SPAWN_POS.getZ()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
-        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 2, DDDConfig.SPAWN_POS.getZ() - 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.EAST));
-        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 2, DDDConfig.SPAWN_POS.getZ() + 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.EAST));
+        this.setBlock(seedReader, new BlockPos(END_X, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.WEST).setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER));
+        this.setBlock(seedReader, new BlockPos(END_X, START_Y + 2, DDDConfig.SPAWN_POS_Z.get()), Blocks.IRON_DOOR.defaultBlockState().setValue(DoorBlock.FACING, Direction.WEST).setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
+        this.setBlock(seedReader, new BlockPos(END_X - 1, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
+        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 1, DDDConfig.SPAWN_POS_Z.get()), Blocks.STONE_PRESSURE_PLATE.defaultBlockState());
+        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 2, DDDConfig.SPAWN_POS_Z.get() - 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.EAST));
+        this.setBlock(seedReader, new BlockPos(END_X + 1, START_Y + 2, DDDConfig.SPAWN_POS_Z.get() + 1), Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, Direction.EAST));
     }
 
     private void placeRoof(ISeedReader seedReader, Random rand) {

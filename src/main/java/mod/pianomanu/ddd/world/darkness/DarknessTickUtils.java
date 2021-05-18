@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/17/21
+ * @version 1.1 05/18/21
  */
 public class DarknessTickUtils {
     private static final DataParameter<Integer> TIME_IN_DARKNESS = EntityDataManager.defineId(PlayerEntity.class, DataSerializers.INT);
@@ -23,7 +23,7 @@ public class DarknessTickUtils {
     public void tick(final TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START && !event.player.getCommandSenderWorld().isClientSide && event.player instanceof ServerPlayerEntity) {
             final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION) && DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_DAMAGE < -1) {
+            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION) && DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get() < -1) {
                 int time = 0;
                 try {
                     time = player.getEntityData().get(TIME_IN_DARKNESS);
@@ -31,13 +31,13 @@ public class DarknessTickUtils {
                     player.getEntityData().define(TIME_IN_DARKNESS, 0);
                     player.getEntityData().set(TIME_IN_DARKNESS, time);
                 }
-                if (player.getBrightness() < 0.05 && time < DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_DAMAGE) {
+                if (player.getBrightness() < 0.05 && time < DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get()) {
                     time++;
                 } else if (player.getBrightness() > 0.05 && time > 0) {
                     time--;
                 }
-                if (time == DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_DAMAGE) {
-                    player.hurt(DarknessDamageSource.DAMAGE_BY_DARKNESS, DDDConfig.DAMAGE_PER_HIT_BY_DARKNESS);
+                if (time == DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get()) {
+                    player.hurt(DarknessDamageSource.DAMAGE_BY_DARKNESS, DDDConfig.DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS.get().floatValue());
                 }
                 player.getEntityData().set(TIME_IN_DARKNESS, time);
             }

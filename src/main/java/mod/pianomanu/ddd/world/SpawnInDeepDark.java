@@ -3,6 +3,7 @@ package mod.pianomanu.ddd.world;
 import mod.pianomanu.ddd.DDDMain;
 import mod.pianomanu.ddd.config.DDDConfig;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -13,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/17/21
+ * @version 1.1 05/18/21
  */
 public class SpawnInDeepDark {
     private static IWorld world;
@@ -24,11 +25,11 @@ public class SpawnInDeepDark {
         if (!world.players().contains(player)) {
             System.out.println("player is new");
             ServerWorld deepDark = player.server.getLevel(DDDMain.DEEP_DARK_DIMENSION);
-            if (DDDConfig.SPAWN_IN_DEEP_DARK_DIMENSION && deepDark != null) {
+            if (DDDConfig.PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION.get() && deepDark != null) {
                 System.out.println("player spawns in deep dark");
-                DDDTeleporter teleporter = new DDDTeleporter(DDDConfig.SPAWN_POS);
+                DDDTeleporter teleporter = new DDDTeleporter(new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get()));
                 teleporter.setOverworldTeleporterPos(player.blockPosition());
-                player.setPos(DDDConfig.SPAWN_POS.getX(), DDDConfig.SPAWN_POS.getY(), DDDConfig.SPAWN_POS.getZ());
+                player.setPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get());
                 player.changeDimension(deepDark, teleporter);
             }
         } else {

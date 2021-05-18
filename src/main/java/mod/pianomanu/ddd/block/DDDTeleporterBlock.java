@@ -34,7 +34,7 @@ import java.util.List;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/17/21
+ * @version 1.2 05/18/21
  */
 @SuppressWarnings("deprecation")
 public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntityProvider {
@@ -55,8 +55,8 @@ public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntit
     @SuppressWarnings("deprecation")
     public ActionResultType use(@Nullable BlockState state, @Nullable World world, @Nullable BlockPos pos, @Nullable PlayerEntity player, @Nullable Hand hand, @Nullable BlockRayTraceResult rayTraceResult) {
         if (player instanceof ServerPlayerEntity) {
-            teleportPlayer((ServerPlayerEntity) player, DDDConfig.SPAWN_POS);
-            return ActionResultType.CONSUME;
+            if (teleportPlayer((ServerPlayerEntity) player, new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get())))
+                return ActionResultType.CONSUME;
         }
         return ActionResultType.PASS;
     }
@@ -81,12 +81,12 @@ public class DDDTeleporterBlock extends AbstractGlassBlock implements ITileEntit
         if (!player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION)) {
             ServerWorld destiny = player.server.getLevel(DDDMain.DEEP_DARK_DIMENSION);
             if (destiny != null) {
-                DDDTeleporter teleporter = new DDDTeleporter(DDDConfig.SPAWN_POS);
+                DDDTeleporter teleporter = new DDDTeleporter(new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get()));
                 teleporter.setOverworldTeleporterPos(player.blockPosition());
-                player.setPos(DDDConfig.SPAWN_POS.getX(), DDDConfig.SPAWN_POS.getY(), DDDConfig.SPAWN_POS.getZ());
+                player.setPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get());
                 player.changeDimension(destiny, teleporter);
-                if (DDDConfig.SPAWN_IN_DEEP_DARK_DIMENSION)
-                    player.setRespawnPosition(player.level.dimension(), DDDConfig.SPAWN_POS, 0, true, true);
+                if (DDDConfig.PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION.get())
+                    player.setRespawnPosition(player.level.dimension(), new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get()), 0, true, true);
             } else {
                 LOGGER.error("Could not find Deep Dark Dimension...");
                 player.sendMessage(new TranslationTextComponent("Could not transfer to Deep Dark Dimension"), ChatType.SYSTEM, player.getUUID());

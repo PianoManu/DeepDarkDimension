@@ -22,7 +22,7 @@ import java.util.Random;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.0 05/15/21
+ * @version 1.1 05/18/21
  */
 public class DeepDarkPillar extends Feature<OreFeatureConfig> {
     public DeepDarkPillar(Codec<OreFeatureConfig> config) {
@@ -38,7 +38,7 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
         int pillarSocketDiameterLarge = 10;
         int pillarConnectionDiameter = 6;
         int startXPosition = pos.getX();
-        int startYPosition = DDDConfig.CAVE_LOWER_LIMIT;
+        int startYPosition = DDDConfig.CAVE_FLOOR_HEIGHT.get();
         int startZPosition = pos.getZ();
         for (int currentXPosition = startXPosition; currentXPosition <= startXPosition + pillarSocketDiameter; currentXPosition++) {
             for (int currentZPosition = startZPosition; currentZPosition <= startZPosition + pillarSocketDiameter; currentZPosition++) {
@@ -53,7 +53,7 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
                         this.setBlock(seedReader, new BlockPos(currentXPosition, currentYPosition, currentZPosition), determineBlockState(rand));
                 }
                 //upper socket
-                for (int currentYPosition = DDDConfig.CAVE_UPPER_LIMIT - 2 * pillarSocketHeight; currentYPosition < DDDConfig.CAVE_UPPER_LIMIT - pillarSocketHeight; currentYPosition++) {
+                for (int currentYPosition = DDDConfig.CAVE_CEILING_HEIGHT.get() - 2 * pillarSocketHeight; currentYPosition < DDDConfig.CAVE_CEILING_HEIGHT.get() - pillarSocketHeight; currentYPosition++) {
                     if (isInnerPosition)
                         this.setBlock(seedReader, new BlockPos(currentXPosition, currentYPosition, currentZPosition), determineSimpleBlockState(rand));
                     else if (isNotACornerPosition)
@@ -74,7 +74,7 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
                         this.setBlock(seedReader, new BlockPos(currentXPosition, currentYPosition, currentZPosition), determineBlockState(rand));
                 }
                 //upper large socket
-                for (int currentYPosition = DDDConfig.CAVE_UPPER_LIMIT - pillarSocketHeight; currentYPosition < DDDConfig.CAVE_UPPER_LIMIT; currentYPosition++) {
+                for (int currentYPosition = DDDConfig.CAVE_CEILING_HEIGHT.get() - pillarSocketHeight; currentYPosition < DDDConfig.CAVE_CEILING_HEIGHT.get(); currentYPosition++) {
                     if (isInnerPosition)
                         this.setBlock(seedReader, new BlockPos(currentXPosition, currentYPosition, currentZPosition), determineSimpleBlockState(rand));
                     else if (isNotACornerPosition)
@@ -85,7 +85,7 @@ public class DeepDarkPillar extends Feature<OreFeatureConfig> {
         //middle post
         for (int currentXPosition = startXPosition + 1; currentXPosition <= startXPosition + pillarConnectionDiameter + 1; currentXPosition++) {
             for (int currentZPosition = startZPosition + 1; currentZPosition <= startZPosition + pillarConnectionDiameter + 1; currentZPosition++) {
-                for (int currentYPosition = startYPosition + 2 * pillarSocketHeight; currentYPosition < DDDConfig.CAVE_UPPER_LIMIT - 2 * pillarSocketHeight; currentYPosition++) {
+                for (int currentYPosition = startYPosition + 2 * pillarSocketHeight; currentYPosition < DDDConfig.CAVE_CEILING_HEIGHT.get() - 2 * pillarSocketHeight; currentYPosition++) {
                     boolean isCornerPosition = (currentXPosition == startXPosition + 1 && currentZPosition == startZPosition + 1) || (currentXPosition == startXPosition + pillarConnectionDiameter + 1 && currentZPosition == startZPosition + 1) || (currentXPosition == startXPosition + 1 && currentZPosition == startZPosition + pillarConnectionDiameter + 1) || (currentXPosition == startXPosition + pillarConnectionDiameter + 1 && currentZPosition == startZPosition + pillarConnectionDiameter + 1);
                     boolean isNotACornerPosition = !isCornerPosition;
                     boolean isInnerPosition = !(currentXPosition == startXPosition + 1 || currentXPosition == startXPosition + pillarSocketDiameter - 1 || currentZPosition == startZPosition + 1 || currentZPosition == startZPosition + pillarSocketDiameter - 1);

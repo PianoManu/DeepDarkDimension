@@ -15,7 +15,7 @@ import java.util.function.Function;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/17/21
+ * @version 1.2 05/18/21
  */
 public class DDDTeleporter implements ITeleporter {
     private static BlockPos overworldTeleporterPos;
@@ -31,7 +31,7 @@ public class DDDTeleporter implements ITeleporter {
             ServerPlayerEntity player = (ServerPlayerEntity) e;
             BlockPos teleporterPos;
             if (destWorld.dimension().equals(DDDMain.DEEP_DARK_DIMENSION))
-                teleporterPos = DDDConfig.SPAWN_POS;
+                teleporterPos = new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get());
             else
                 teleporterPos = overworldTeleporterPos;
             if (teleporterPos == null) {

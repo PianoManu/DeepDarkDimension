@@ -29,7 +29,7 @@ import static mod.pianomanu.ddd.DDDMain.MOD_ID;
  * Main class of the Deep Dark Dimension mod
  *
  * @author PianoManu
- * @version 1.1 05/17/21
+ * @version 1.2 05/18/21
  */
 @Mod(MOD_ID)
 public class DDDMain {
