@@ -1,22 +1,22 @@
 package mod.pianomanu.ddd.world.feature;
 
 import com.mojang.serialization.Codec;
+import mod.pianomanu.ddd.DDDMain;
 import mod.pianomanu.ddd.config.DDDConfig;
 import mod.pianomanu.ddd.init.Registration;
 import net.minecraft.block.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -25,7 +25,7 @@ import java.util.Random;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.2 05/18/21
+ * @version 1.3 05/20/21
  */
 public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
@@ -36,6 +36,22 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
     private static final int START_Y = DDDConfig.SPAWN_POS_Y.get() - 5;
     private static final int MIDDLE_Y = DDDConfig.SPAWN_POS_Y.get() - 1;
     private static final int END_Y = DDDConfig.SPAWN_POS_Y.get() + 3;
+
+    private final ResourceLocation STARTER_CHEST_LOOT_TABLE = getStarterChestLootTable(DDDConfig.STARTER_CHEST_DIFFICULTY.get());
+
+    private ResourceLocation getStarterChestLootTable(int difficulty) {
+        switch (difficulty) {
+            case 1:
+                System.out.println(1);
+                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_normal");
+            case 2:
+                System.out.println(2);
+                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_hard");
+            default:
+                System.out.println(difficulty);
+                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_easy");
+        }
+    }
 
     public DeepDarkStartingBase(Codec<NoFeatureConfig> config) {
         super(config);
@@ -58,8 +74,8 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
                 placeLadder(seedReader);
                 placeExits(seedReader);
                 placeRoof(seedReader, rand);
-                //if (DDDConfig.INCLUDE_STARTER_CHEST) //TODO not working
-                //placeStarterChest(seedReader);
+                if (DDDConfig.DEEP_DARK_INCLUDES_BONUS_CHEST.get())
+                    placeStarterChest(seedReader, rand);
                 return true;
             }
         }
@@ -85,6 +101,8 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
                             else
                                 this.setBlock(seedReader, new BlockPos(x, y, z), determineStoneBrickState(rand));
                         }
+                        if (!isCornerFrameBlock && !isCornerBlock && !(y == START_Y || y == MIDDLE_Y))
+                            this.setBlock(seedReader, new BlockPos(x, y, z), Blocks.CAVE_AIR.defaultBlockState());
                     }
                 } catch (RuntimeException ignored) {
 
@@ -198,26 +216,14 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
         }
     }
 
-    private void placeStarterChest(ISeedReader seedReader) { //TODO
+    private void placeStarterChest(ISeedReader seedReader, Random rand) {
         BlockState chest = Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
         if (chest.hasTileEntity()) {
-            ChestTileEntity c = (ChestTileEntity) chest.createTileEntity(seedReader);
-            chest.getBlock().createTileEntity(chest, seedReader);
-            if (c != null) {
-                c.clearCache();
-                c.setItem(0, new ItemStack(Items.OAK_SAPLING, 16));
-                c.setItem(1, new ItemStack(Items.TORCH, 16));
-                c.setItem(2, new ItemStack(Items.GRASS_BLOCK, 4));
-                c.setItem(3, new ItemStack(Items.WHEAT_SEEDS, 4));
-                c.setItem(4, new ItemStack(Items.CARROT, 4));
-                c.setItem(5, new ItemStack(Items.POTATO, 4));
-                c.setItem(6, new ItemStack(Items.SUGAR_CANE, 4));
-                c.setItem(7, new ItemStack(Items.CACTUS, 4));
-                c.setItem(8, new ItemStack(Items.BAMBOO, 4));
-                c.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-                this.setBlock(seedReader, new BlockPos(START_X + 1, MIDDLE_Y + 1, START_Z + 1), chest);
-            } else {
-                System.out.println("Something not working...");
+            BlockPos chestPos = new BlockPos(START_X + 1, MIDDLE_Y + 1, START_Z + 1);
+            this.setBlock(seedReader, chestPos, chest);
+            TileEntity te = seedReader.getBlockEntity(chestPos);
+            if (te instanceof ChestTileEntity) {
+                ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE, rand.nextLong());
             }
         }
     }

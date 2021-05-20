@@ -12,7 +12,7 @@ import java.nio.file.Path;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.2 05/18/21
+ * @version 1.3 05/20/21
  */
 public class DDDConfig {
     public static final String CATEGORY_SPAWNING = "spawning";
@@ -29,11 +29,12 @@ public class DDDConfig {
     public static ForgeConfigSpec.IntValue SPAWN_POS_Y;
     public static ForgeConfigSpec.IntValue SPAWN_POS_Z;
     public static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK;
-    public static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_BONUS_CHEST; //TODO doesn't work right now
+    public static ForgeConfigSpec.BooleanValue DEEP_DARK_INCLUDES_BONUS_CHEST;
     public static ForgeConfigSpec.IntValue MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE;
     public static ForgeConfigSpec.DoubleValue DAMAGE_PER_HIT_RECEIVED_BY_DARKNESS;
     public static ForgeConfigSpec.BooleanValue PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION;
     public static ForgeConfigSpec.BooleanValue CREATE_SPAWN_BASE;
+    public static ForgeConfigSpec.IntValue STARTER_CHEST_DIFFICULTY;
 
     static {
         BUILDER.comment("World generation settings").push(CATEGORY_GENERATION);
@@ -60,7 +61,8 @@ public class DDDConfig {
         SPAWN_POS_Z = BUILDER.comment("Z-value for spawn position in deep dark - should only be changed, if you want to play without a spawn base").defineInRange("spawn_pos_z", 8, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         DEEP_DARK_INCLUDES_TELEPORTER_BLOCK_FOR_TELEPORTING_BACK = BUILDER.comment("When set to true, the deep dark dimension will contain a teleporter block near the default spawn position to bring you back to the overworld").define("teleporter_block_included", true);
-        DEEP_DARK_INCLUDES_BONUS_CHEST = BUILDER.comment("When set to true, the deep dark dimension will contain a bonus chest with some useful loot (i.e. saplings, seeds, etc.)\nYou should enable this feature, if you want to spawn in the deep dark dimension when creating a new world - otherwise it might be really hard to play successfully").define("bonus_chest_included", false); //TODO fix bonus chests
+        DEEP_DARK_INCLUDES_BONUS_CHEST = BUILDER.comment("When set to true, the deep dark dimension will contain a bonus chest with some useful loot (i.e. saplings, seeds, etc.)\nYou should enable this feature, if you want to spawn in the deep dark dimension when creating a new world - otherwise it might be really hard to play successfully").define("bonus_chest_included", false);
+        STARTER_CHEST_DIFFICULTY = BUILDER.comment("Determines how many loot the starter chest contains.\n    When set to 0, it will contain a lot of useful stuff. (easy mode)\n    When set to 1, it will contain enough stuff to grant you access to all important things in the game, but you have to be careful with it! (normal mode)\n    When set to 2, the chest will contain barely the minimum, so you'll have a very rough time. (hard mode)\nThis value does not change anything, if you disabled the starter chest").defineInRange("starter_chest_loot", 1, 0, 2);
 
         PLAYER_SPAWNS_IN_DEEP_DARK_DIMENSION = BUILDER.comment("When set to true, the player will spawn in the deep dark dimension instead of the overworld after creating a new world.\nWARNING: This could lead to unforeseen problems, when using other mods that add custom dimensions and try to do the same").define("spawn_in_ddd", false);
 
