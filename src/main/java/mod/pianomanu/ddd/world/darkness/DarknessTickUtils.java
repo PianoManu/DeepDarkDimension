@@ -2,7 +2,6 @@ package mod.pianomanu.ddd.world.darkness;
 
 import mod.pianomanu.ddd.DDDMain;
 import mod.pianomanu.ddd.config.DDDConfig;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -14,10 +13,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/18/21
+ * @version 1.2 05/20/21
  */
 public class DarknessTickUtils {
-    private static final DataParameter<Integer> TIME_IN_DARKNESS = EntityDataManager.defineId(PlayerEntity.class, DataSerializers.INT);
+    private static final DataParameter<Integer> TIME_IN_DARKNESS = EntityDataManager.defineId(ServerPlayerEntity.class, DataSerializers.INT);
 
     @SubscribeEvent
     public void tick(final TickEvent.PlayerTickEvent event) {
