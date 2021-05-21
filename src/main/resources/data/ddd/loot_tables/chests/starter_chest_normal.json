@@ -73,6 +73,25 @@
               }
             }
           ],
+          "name": "minecraft:dirt"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 3.0,
+                "max": 5.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
           "name": "minecraft:wheat_seeds"
         }
       ]
