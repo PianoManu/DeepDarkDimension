@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.2 05/20/21
+ * @version 1.3 05/21/21
  */
 public class DarknessTickUtils {
     private static final DataParameter<Integer> TIME_IN_DARKNESS = EntityDataManager.defineId(ServerPlayerEntity.class, DataSerializers.INT);
@@ -22,7 +22,7 @@ public class DarknessTickUtils {
     public void tick(final TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START && !event.player.getCommandSenderWorld().isClientSide && event.player instanceof ServerPlayerEntity) {
             final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION) && DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get() < -1) {
+            if (player.level.dimension().equals(DDDMain.DEEP_DARK_DIMENSION) && DDDConfig.MAX_TIME_IN_DARKNESS_BEFORE_RECEIVING_DAMAGE.get() > -1) {
                 int time = 0;
                 try {
                     time = player.getEntityData().get(TIME_IN_DARKNESS);
