@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.1 05/18/21
+ * @version 1.2 05/21/21
  */
 public class SpawnInDeepDark {
     private static IWorld world;
@@ -29,6 +29,7 @@ public class SpawnInDeepDark {
                 teleporter.setOverworldTeleporterPos(player.blockPosition());
                 player.setPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get());
                 player.changeDimension(deepDark, teleporter);
+                player.setRespawnPosition(DDDMain.DEEP_DARK_DIMENSION, new BlockPos(DDDConfig.SPAWN_POS_X.get(), DDDConfig.SPAWN_POS_Y.get(), DDDConfig.SPAWN_POS_Z.get()), 0, true, false);
             }
         }
     }

@@ -8,6 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.function.Function;
 
@@ -15,9 +17,11 @@ import java.util.function.Function;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.2 05/18/21
+ * @version 1.3 05/21/21
  */
 public class DDDTeleporter implements ITeleporter {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private static BlockPos overworldTeleporterPos;
 
     public DDDTeleporter(BlockPos overworldTeleporterPos) {
@@ -35,13 +39,14 @@ public class DDDTeleporter implements ITeleporter {
             else
                 teleporterPos = overworldTeleporterPos;
             if (teleporterPos == null) {
-                teleporterPos = player.getRespawnPosition();
-            }
-            if (teleporterPos == null) {
                 player.setRespawnPosition(World.OVERWORLD, null, 0, false, false);
                 teleporterPos = player.getRespawnPosition();
             }
-            player.teleportTo(teleporterPos.getX(), teleporterPos.getY(), teleporterPos.getZ());
+            if (teleporterPos != null) {
+                player.teleportTo(teleporterPos.getX(), teleporterPos.getY(), teleporterPos.getZ());
+            } else {
+                LOGGER.error("Could not teleport - no position was found");
+            }
         }
         return e;
     }
