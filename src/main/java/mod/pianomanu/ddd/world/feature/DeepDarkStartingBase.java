@@ -25,7 +25,7 @@ import java.util.Random;
  * Will add description later...
  *
  * @author PianoManu
- * @version 1.3 05/20/21
+ * @version 1.4 05/21/21
  */
 public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
 
@@ -37,21 +37,9 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
     private static final int MIDDLE_Y = DDDConfig.SPAWN_POS_Y.get() - 1;
     private static final int END_Y = DDDConfig.SPAWN_POS_Y.get() + 3;
 
-    private final ResourceLocation STARTER_CHEST_LOOT_TABLE = getStarterChestLootTable(DDDConfig.STARTER_CHEST_DIFFICULTY.get());
-
-    private ResourceLocation getStarterChestLootTable(int difficulty) {
-        switch (difficulty) {
-            case 1:
-                System.out.println(1);
-                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_normal");
-            case 2:
-                System.out.println(2);
-                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_hard");
-            default:
-                System.out.println(difficulty);
-                return new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_easy");
-        }
-    }
+    private final ResourceLocation STARTER_CHEST_LOOT_TABLE_EASY = new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_easy");
+    private final ResourceLocation STARTER_CHEST_LOOT_TABLE_NORMAL = new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_normal");
+    private final ResourceLocation STARTER_CHEST_LOOT_TABLE_HARD = new ResourceLocation(DDDMain.MOD_ID, "chests/starter_chest_hard");
 
     public DeepDarkStartingBase(Codec<NoFeatureConfig> config) {
         super(config);
@@ -223,7 +211,14 @@ public class DeepDarkStartingBase extends Feature<NoFeatureConfig> {
             this.setBlock(seedReader, chestPos, chest);
             TileEntity te = seedReader.getBlockEntity(chestPos);
             if (te instanceof ChestTileEntity) {
-                ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE, rand.nextLong());
+                if (DDDConfig.STARTER_CHEST_DIFFICULTY.get() == 0)
+                    ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE_EASY, rand.nextLong());
+                else if (DDDConfig.STARTER_CHEST_DIFFICULTY.get() == 1)
+                    ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE_NORMAL, rand.nextLong());
+                else if (DDDConfig.STARTER_CHEST_DIFFICULTY.get() == 2)
+                    ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE_HARD, rand.nextLong());
+                else
+                    ((ChestTileEntity) te).setLootTable(this.STARTER_CHEST_LOOT_TABLE_EASY, rand.nextLong());
             }
         }
     }
