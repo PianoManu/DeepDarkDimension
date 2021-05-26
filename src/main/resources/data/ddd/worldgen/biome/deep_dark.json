@@ -15,7 +15,9 @@
   "surface_builder": "ddd:deep_dark",
   "carvers": {
     "air": [
-      "ddd:deep_dark_cave"
+      "ddd:deep_dark_cave",
+      "minecraft:canyon",
+      "minecraft:cave"
     ]
   },
   "features": [
