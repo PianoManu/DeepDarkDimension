@@ -10,7 +10,7 @@ import java.util.*;
  * @version 1.0 06/04/21
  */
 public class JSONParser {
-    private final Map<String, List<String>> playersPerWorld = new HashMap<>();
+    //private final Map<String, List<String>> playersPerWorld = new HashMap<>();
     private String JSON;
 
     public JSONParser(String JSON) {
@@ -55,18 +55,16 @@ public class JSONParser {
         for (String world : JSONWorld) {
             playersPerWorld.put(world, new ArrayList<>());
         }
-        //playersPerWorld.replaceAll((w, v) -> getPlayersFromWorld(JSONWorlds, w));
         for (String w : playersPerWorld.keySet()) {
             playersPerWorld.replace(w, getPlayersFromWorld(JSONWorlds, w));
         }
-        //System.out.println(playersPerWorld);
         return playersPerWorld;
     }
 
     private List<String> getWorlds(String JSONWorlds) {
         List<String> JSONWorld = new ArrayList<>();
         int begin = 0;
-        int end = 0;
+        int end;
         for (int j = 0; j < JSONWorlds.length(); j++) {
             if (JSONWorlds.charAt(j) == '{') {
                 begin = j;
@@ -85,8 +83,8 @@ public class JSONParser {
 
     private List<String> getPlayersFromWorld(String JSONWorlds, String worldName) {
         String playerString = "";
-        int begin = 0;
-        int end = 0;
+        int begin;
+        int end;
         if (JSONWorlds.contains(worldName + "\":")) {
             begin = JSONWorlds.indexOf(worldName);
             for (int j = begin; j < JSONWorlds.length(); j++) {
@@ -100,11 +98,8 @@ public class JSONParser {
                 }
             }
         }
-        //System.out.println(JSONWorlds + ",   " + playerString);
         List<String> players = new ArrayList<>();
         begin = 0;
-        end = 0;
-        //playerString = playerString.replace("\n","");
         for (int i = begin; i < playerString.length(); i++) {
             if (playerString.charAt(i) == ',') {
                 end = i;
@@ -119,7 +114,6 @@ public class JSONParser {
                 players.add(playerString.substring(begin + 1, end - 1));
             }
         }
-        //System.out.println("Players for World " + worldName + ": " + players);
         return players;
     }
 }
