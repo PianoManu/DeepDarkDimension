@@ -36,11 +36,12 @@
       "minecraft:ore_redstone",
       "minecraft:ore_diamond",
       "minecraft:ore_lapis",
+      "minecraft:ore_emerald",
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
-	  "ddd:deep_dark_pillar",
-	  "ddd:spawn_base"
+      "ddd:deep_dark_pillar",
+      "ddd:spawn_base"
     ]
   ],
   "starts": [
