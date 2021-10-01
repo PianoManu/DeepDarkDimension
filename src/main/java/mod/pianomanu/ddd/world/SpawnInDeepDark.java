@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import sun.misc.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +48,28 @@ public class SpawnInDeepDark {
         FileInputStream inputStream = new FileInputStream(file.getAbsolutePath());
         byte[] content;
         try {
-            content = IOUtils.readFully(inputStream, (int) file.length(), true);
+            int totalSize = 0;
+            List<byte[]> buffers = new ArrayList<>();
+            int bufferSize = 4096;
+            for (;;) {
+                byte[] buffer = new byte[bufferSize];
+                int read = inputStream.read(buffer);
+                if (read <= 0) break;
+                totalSize += read;
+                if (read < bufferSize) {
+                    byte[] copy = new byte[read];
+                    System.arraycopy(buffer, 0, copy, 0, read);
+                    buffers.add(copy);
+                } else {
+                    buffers.add(buffer);
+                }
+            }
+            content = new byte[totalSize];
+            int idx = 0;
+            for (byte[] buffer : buffers) {
+                System.arraycopy(buffer, 0, content, idx, buffer.length);
+                idx += buffer.length;
+            }
         } finally {
             inputStream.close();
         }
