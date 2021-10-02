@@ -11,10 +11,10 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,35 +45,7 @@ public class SpawnInDeepDark {
 
 
     private static byte[] readFile(File file) throws IOException {
-        FileInputStream inputStream = new FileInputStream(file.getAbsolutePath());
-        byte[] content;
-        try {
-            int totalSize = 0;
-            List<byte[]> buffers = new ArrayList<>();
-            int bufferSize = 4096;
-            for (;;) {
-                byte[] buffer = new byte[bufferSize];
-                int read = inputStream.read(buffer);
-                if (read <= 0) break;
-                totalSize += read;
-                if (read < bufferSize) {
-                    byte[] copy = new byte[read];
-                    System.arraycopy(buffer, 0, copy, 0, read);
-                    buffers.add(copy);
-                } else {
-                    buffers.add(buffer);
-                }
-            }
-            content = new byte[totalSize];
-            int idx = 0;
-            for (byte[] buffer : buffers) {
-                System.arraycopy(buffer, 0, content, idx, buffer.length);
-                idx += buffer.length;
-            }
-        } finally {
-            inputStream.close();
-        }
-        return content;
+        return Files.readAllBytes(file.toPath());
     }
 
     private static void writeFile(File file, String content) throws IOException {
