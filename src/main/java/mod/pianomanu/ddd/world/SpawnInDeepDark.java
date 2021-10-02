@@ -9,13 +9,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import sun.misc.IOUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,14 +45,7 @@ public class SpawnInDeepDark {
 
 
     private static byte[] readFile(File file) throws IOException {
-        FileInputStream inputStream = new FileInputStream(file.getAbsolutePath());
-        byte[] content;
-        try {
-            content = IOUtils.readFully(inputStream, (int) file.length(), true);
-        } finally {
-            inputStream.close();
-        }
-        return content;
+        return Files.readAllBytes(file.toPath());
     }
 
     private static void writeFile(File file, String content) throws IOException {
